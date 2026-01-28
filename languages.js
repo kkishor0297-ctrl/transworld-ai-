@@ -1,41 +1,44 @@
-const languages = [
-  { code:'en', name:'English' },
-  { code:'zh', name:'Mandarin' },
-  { code:'es', name:'Spanish' },
-  { code:'fr', name:'French' },
-  { code:'ar', name:'Arabic' },
-  { code:'bn', name:'Bengali' },
-  { code:'pt', name:'Portuguese' },
-  { code:'ru', name:'Russian' },
-  { code:'ja', name:'Japanese' },
-  { code:'pa', name:'Punjabi' },
-  { code:'de', name:'German' },
-  { code:'jv', name:'Javanese' },
-  { code:'te', name:'Telugu' },
-  { code:'vi', name:'Vietnamese' },
-  { code:'ko', name:'Korean' },
-  { code:'mr', name:'Marathi' },
-  { code:'ta', name:'Tamil' },
-  { code:'tr', name:'Turkish' },
-  { code:'it', name:'Italian' },
-  { code:'hi', name:'Hindi' },
-  { code:'gu', name:'Gujarati' },
-  { code:'kn', name:'Kannada' },
-  { code:'ml', name:'Malayalam' },
-  { code:'or', name:'Odia' },
-  { code:'as', name:'Assamese' },
-  { code:'sd', name:'Sindhi' }
+const langs = [
+ {c:"en-US",n:"English"},
+ {c:"hi-IN",n:"Hindi"},
+ {c:"bn-IN",n:"Bengali"},
+ {c:"ta-IN",n:"Tamil"},
+ {c:"te-IN",n:"Telugu"},
+ {c:"mr-IN",n:"Marathi"},
+ {c:"gu-IN",n:"Gujarati"},
+ {c:"pa-IN",n:"Punjabi"},
+ {c:"ur-PK",n:"Urdu"},
+ {c:"fr-FR",n:"French"},
+ {c:"de-DE",n:"German"},
+ {c:"es-ES",n:"Spanish"},
+ {c:"pt-PT",n:"Portuguese"},
+ {c:"ru-RU",n:"Russian"},
+ {c:"ja-JP",n:"Japanese"},
+ {c:"ko-KR",n:"Korean"},
+ {c:"zh-CN",n:"Chinese"},
+ {c:"ar-SA",n:"Arabic"},
+ {c:"it-IT",n:"Italian"},
+ {c:"tr-TR",n:"Turkish"},
+ {c:"vi-VN",n:"Vietnamese"},
+ {c:"id-ID",n:"Indonesian"},
+ {c:"th-TH",n:"Thai"},
+ {c:"nl-NL",n:"Dutch"},
+ {c:"pl-PL",n:"Polish"},
+ {c:"uk-UA",n:"Ukrainian"}
 ];
 
-const inputSelect = document.getElementById('inputLang');
-const outputSelect = document.getElementById('outputLang');
+const inSel=document.getElementById("inputLang");
+const outSel=document.getElementById("outputLang");
 
-languages.forEach(lang=>{
-  const opt1=document.createElement('option');
-  opt1.value=lang.code; opt1.textContent=lang.name;
-  inputSelect.appendChild(opt1);
+langs.forEach(l=>{
+  let o1=document.createElement("option");
+  o1.value=l.c; o1.textContent=l.n;
+  inSel.appendChild(o1);
 
-  const opt2=document.createElement('option');
-  opt2.value=lang.code; opt2.textContent=lang.name;
-  outputSelect.appendChild(opt2);
+  let o2=document.createElement("option");
+  o2.value=l.c; o2.textContent=l.n;
+  outSel.appendChild(o2);
 });
+
+inSel.value="hi-IN";
+outSel.value="en-US";
