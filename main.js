@@ -1,59 +1,57 @@
 const voiceBtn = document.getElementById('voiceBtn');
+const translateBtn = document.getElementById('translateBtn');
 const inputText = document.getElementById('inputText');
 const outputText = document.getElementById('outputText');
-const sourceLang = document.getElementById('sourceLang');
-const targetLang = document.getElementById('targetLang');
+const sLang = document.getElementById('sourceLang');
+const tLang = document.getElementById('targetLang');
 
-// 1. असली अनुवाद (Real Translation) फंक्शन
-async function translateText(text) {
-    const s = sourceLang.value;
-    const t = targetLang.value;
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${s}|${t}`;
-    
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        return data.responseData.translatedText;
-    } catch (error) {
-        return "Translation Error! Check Internet.";
-    }
-}
-
-// 2. आवाज़ से बोलना (Text to Speech)
-function speak(text, lang) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
-    window.speechSynthesis.speak(utterance);
-}
-
-// 3. लिसनिंग बटन और वॉइस रिकग्निशन
+// 1. 🎤 आवाज़ रिकॉर्ड करना (Speech to Text)
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.continuous = false;
-recognition.lang = 'hi-IN'; // डिफ़ॉल्ट हिंदी
+recognition.lang = 'hi-IN'; // शुरुआत में हिंदी
 
 voiceBtn.onclick = () => {
     recognition.start();
-    voiceBtn.classList.add('listening'); // यहाँ से बटन लाल होगा
+    voiceBtn.classList.add('listening'); // बटन लाल हो जाएगा
     voiceBtn.innerText = "Listening... 🎤";
 };
 
 recognition.onresult = async (event) => {
     voiceBtn.classList.remove('listening');
     voiceBtn.innerText = "Start Voice 🎤";
-    
-    const transcript = event.results[0][0].transcript;
-    inputText.value = transcript;
-    
-    // अनुवाद शुरू करें
-    outputText.value = "Translating...";
-    const result = await translateText(transcript);
-    outputText.value = result;
-    
-    // अनुवाद सुनने के लिए
-    speak(result, targetLang.value);
+    const text = event.results[0][0].transcript;
+    inputText.value = text;
+    processTranslation(text);
 };
 
-recognition.onerror = () => {
-    voiceBtn.classList.remove('listening');
-    voiceBtn.innerText = "Start Voice 🎤";
+// 2. ✍️ एडिट किए हुए टेक्स्ट को ट्रांसलेट करना
+translateBtn.onclick = () => {
+    processTranslation(inputText.value);
 };
+
+// 3. 🌍 असली अनुवाद और आवाज़ (Translation & Sound)
+async function processTranslation(text) {
+    if(!text) return;
+    outputText.value = "Translating...";
+    
+    // API के लिए 2-letter कोड लेना (जैसे hi-IN से hi)
+    const source = sLang.value.split('-')[0];
+    const target = tLang.value.split('-')[0];
+    
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${source}|${target}`;
+    
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const result = data.responseData.translatedText;
+        
+        outputText.value = result;
+        
+        // 🔊 अनुवाद को बोलकर सुनाना
+        const speech = new SpeechSynthesisUtterance(result);
+        speech.lang = tLang.value; // जो भाषा चुनी है उसी के लहजे में बोलेगा
+        window.speechSynthesis.speak(speech);
+        
+    } catch (err) {
+        outputText.value = "Error: Check Connection";
+    }
+}
