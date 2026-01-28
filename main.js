@@ -1,58 +1,68 @@
-const startBtn=document.getElementById("startBtn");
-const stopBtn=document.getElementById("stopBtn");
-const copyBtn=document.getElementById("copyBtn");
-const clearBtn=document.getElementById("clearBtn");
+const inputText = document.getElementById('inputText');
+const outputText = document.getElementById('outputText');
+const listenBtn = document.getElementById('listenBtn');
+const copyBtn = document.getElementById('copyBtn');
+const clearBtn = document.getElementById('clearBtn');
+const shareBtn = document.getElementById('shareBtn');
 
-const inputText=document.getElementById("inputText");
-const outputText=document.getElementById("outputText");
+let recognizing = false;
+let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.continuous = true;
+recognition.interimResults = true;
 
-const inputLang=document.getElementById("inputLang");
-const outputLang=document.getElementById("outputLang");
+// Start / Stop listening
+listenBtn.addEventListener('click', () => {
+  if (!recognizing) {
+    recognition.start();
+    recognizing = true;
+    listenBtn.textContent = '🛑 Stop Listening';
+  } else {
+    recognition.stop();
+    recognizing = false;
+    listenBtn.textContent = '🎤 Listen & Translate';
+  }
+});
 
-const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-const recognition=new SpeechRecognition();
+// On voice input
+recognition.onresult = async (event) => {
+  const speech = event.results[event.results.length-1][0].transcript;
+  inputText.value = speech;
 
-recognition.continuous=true;
-recognition.interimResults=false;
+  const from = inputLang.value;
+  const to = outputLang.value;
 
-startBtn.onclick=()=>{
- recognition.lang=inputLang.value;
- recognition.start();
- startBtn.classList.add("active"); // GREEN
+  // Call Translation function
+  const translated = await translateAPI(speech, from, to);
+  outputText.value = translated;
+
+  // Speech output
+  const utter = new SpeechSynthesisUtterance(translated);
+  utter.lang = to;
+  speechSynthesis.speak(utter);
 };
 
-stopBtn.onclick=()=>{
- recognition.stop();
- startBtn.classList.remove("active");
-};
+// Copy Button
+copyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(outputText.value);
+});
 
-recognition.onresult=e=>{
- const text=e.results[e.results.length-1][0].transcript;
- inputText.value+=text+" ";
- speak(text);
-};
+// Clear Button
+clearBtn.addEventListener('click', () => {
+  inputText.value = '';
+  outputText.value = '';
+});
 
-function speak(text){
- outputText.textContent=text;
- speechSynthesis.cancel(); // FIX sound issue
- const u=new SpeechSynthesisUtterance(text);
- u.lang=outputLang.value;
- u.rate=1;
- u.pitch=1;
- speechSynthesis.speak(u);
+// Share Button
+shareBtn.addEventListener('click', () => {
+  if (navigator.share) {
+    navigator.share({ text: outputText.value });
+  } else {
+    alert('Sharing not supported');
+  }
+});
+
+// Fake Translation API (replace with real one)
+async function translateAPI(text, from, to) {
+  // Real API: Google Translate, DeepL, or LibreTranslate
+  return `[${to}] ${text}`;
 }
-
-inputText.onchange=()=>{
- speak(inputText.value);
-};
-
-copyBtn.onclick=()=>{
- navigator.clipboard.writeText(outputText.textContent);
- alert("Copied");
-};
-
-clearBtn.onclick=()=>{
- inputText.value="";
- outputText.textContent="";
- speechSynthesis.cancel();
-};
