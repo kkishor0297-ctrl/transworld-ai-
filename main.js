@@ -12,11 +12,11 @@ const outputSelect = document.getElementById('outputLang');
 
 // Voice Input
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = 'en-US';
 recognition.continuous = true;
 recognition.interimResults = false;
 
 startBtn.addEventListener('click', ()=>{
+  recognition.lang = inputSelect.value || 'en-US';
   recognition.start();
 });
 
@@ -25,20 +25,23 @@ recognition.onresult = (event)=>{
   inputText.value += transcript + ' ';
 };
 
-// Translate & Clean Voice Output
+// Translate & Voice Output
 translateBtn.addEventListener('click', async ()=>{
   const text = inputText.value.trim();
   const sourceLang = inputSelect.value;
   const targetLang = outputSelect.value;
+
   if(!text) return alert('Please enter text!');
 
-  // Replace with real API later
+  // Dummy translation (replace with real API)
   const translated = `(${targetLang}) ${text}`;
   outputText.textContent = translated;
 
-  // Clean voice
+  // Voice output
   const utter = new SpeechSynthesisUtterance(translated);
-  utter.lang = targetLang; // natural voice
+  utter.lang = targetLang || 'en-US';
+  utter.rate = 1; // normal speed
+  utter.pitch = 1; // normal pitch
   speechSynthesis.speak(utter);
 });
 
