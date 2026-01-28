@@ -2,93 +2,37 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Transworld AI</title>
-
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="logo.png">
-
-<style>
-body{
-  margin:0;
-  background:#0b132b;
-  font-family:Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  color:#fff;
-}
-.app{
-  width:100%;
-  max-width:420px;
-  background:#1c2541;
-  padding:16px;
-  border-radius:16px;
-}
-.logo{
-  width:90px;
-  display:block;
-  margin:0 auto 10px;
-}
-h1{text-align:center;margin:5px 0;}
-select,textarea,button{
-  width:100%;
-  padding:10px;
-  margin-top:8px;
-  border-radius:10px;
-  border:none;
-  font-size:16px;
-}
-textarea{resize:none;}
-button{font-weight:bold;}
-.listen{background:#5bc0be;}
-.listen.active{background:#2ecc71;color:#000;}
-.stop{background:#ff6b6b;}
-.copy{background:#feca57;}
-.clear{background:#8395a7;}
-.output{
-  background:#fff;
-  color:#000;
-  margin-top:10px;
-  padding:10px;
-  border-radius:10px;
-  min-height:60px;
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<div class="app">
 
-<img src="logo.png" class="logo">
-<h1>Transworld AI</h1>
+<div class="app-container">
+  <!-- Logo -->
+  <img src="logo.png" alt="Transworld AI Logo" class="logo">
 
-<label>Input Language</label>
-<select id="inputLang"></select>
+  <h1>Transworld AI</h1>
 
-<label>Output Language</label>
-<select id="outputLang"></select>
+  <!-- Language Selection -->
+  <label for="inputLang">Input Language:</label>
+  <select id="inputLang"></select>
 
-<textarea id="inputText" rows="4" placeholder="Speak or type here..."></textarea>
+  <label for="outputLang">Output Language:</label>
+  <select id="outputLang"></select>
 
-<button id="startBtn" class="listen">🎤 Start Listening</button>
-<button id="stopBtn" class="stop">⏹ Stop Listening</button>
+  <!-- Text Areas -->
+  <textarea id="inputText" placeholder="Type or speak..."></textarea>
+  <textarea id="outputText" placeholder="Translation appears here..." readonly></textarea>
 
-<button id="copyBtn" class="copy">📋 Copy Text</button>
-<button id="clearBtn" class="clear">🧹 Clear</button>
-
-<div id="outputText" class="output"></div>
-
+  <!-- Buttons -->
+  <button id="listenBtn">🎤 Listen & Translate</button>
+  <button id="copyBtn">📋 Copy</button>
+  <button id="clearBtn">🧹 Clear</button>
+  <button id="shareBtn">🔗 Share</button>
 </div>
 
 <script src="languages.js"></script>
 <script src="main.js"></script>
-
-<script>
-if("serviceWorker"in navigator){
- navigator.serviceWorker.register("./sw.js");
-}
-</script>
 </body>
 </html>
