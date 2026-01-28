@@ -3,48 +3,59 @@ const translateBtn = document.getElementById('translateBtn');
 const clearBtn = document.getElementById('clearBtn');
 const copyBtn = document.getElementById('copyBtn');
 const shareBtn = document.getElementById('shareBtn');
+
 const inputText = document.getElementById('inputText');
 const outputText = document.getElementById('outputText');
-const languageSelect = document.getElementById('language');
+
+const inputSelect = document.getElementById('inputLang');
+const outputSelect = document.getElementById('outputLang');
 
 // Voice Input
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 recognition.lang = 'en-US';
-recognition.continuous = false;
-startBtn.addEventListener('click', ()=>recognition.start());
-recognition.onresult = (event)=>{ inputText.value = event.results[0][0].transcript; };
+recognition.continuous = true;
+recognition.interimResults = false;
 
-// Translate & Voice Output
+startBtn.addEventListener('click', ()=>{
+  recognition.start();
+});
+
+recognition.onresult = (event)=>{
+  const transcript = event.results[event.results.length-1][0].transcript;
+  inputText.value += transcript + ' ';
+};
+
+// Translate & Clean Voice Output
 translateBtn.addEventListener('click', async ()=>{
   const text = inputText.value.trim();
-  const lang = languageSelect.value;
+  const sourceLang = inputSelect.value;
+  const targetLang = outputSelect.value;
   if(!text) return alert('Please enter text!');
 
-  // Dummy translation (replace with real API)
-  const translated = `Translated (${lang}): ${text}`;
+  // Replace with real API later
+  const translated = `(${targetLang}) ${text}`;
   outputText.textContent = translated;
 
-  // Voice output
+  // Clean voice
   const utter = new SpeechSynthesisUtterance(translated);
-  utter.lang = lang;
+  utter.lang = targetLang; // natural voice
   speechSynthesis.speak(utter);
 });
 
 // Clear
 clearBtn.addEventListener('click', ()=>{
-  inputText.value='';
-  outputText.textContent='';
+  inputText.value=''; outputText.textContent='';
 });
 
 // Copy
 copyBtn.addEventListener('click', ()=>{
   navigator.clipboard.writeText(outputText.textContent);
-  alert('Copied to clipboard!');
+  alert('Copied!');
 });
 
 // Share
 shareBtn.addEventListener('click', ()=>{
   if(navigator.share){
     navigator.share({ text: outputText.textContent }).catch(err=>console.log(err));
-  } else alert('Share not supported on this device.');
+  } else alert('Share not supported.');
 });
