@@ -1,127 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transworld AI - Global Voice Translator</title>
+    <title>Transworld AI - By Kamal Kishor</title>
     <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="logo.png">
     <style>
-        /* प्रोफेशनल डिज़ाइन यहाँ है */
+        :root {
+            --bg-color: #0d1b2a;
+            --card-bg: #1b263b;
+            --text-color: #e0e1dd;
+            --accent-color: #00f2fe;
+            --btn-blue: #00d2ff;
+            --btn-listening: #ff4b2b;
+        }
+
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #0d1b2a;
-            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 15px;
         }
-        .app-container {
-            background: #1b263b;
-            padding: 25px;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            width: 100%;
+
+        .container {
+            width: 90%;
             max-width: 450px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             text-align: center;
-            border: 1px solid #415a77;
         }
-        .logo {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 15px;
+
+        .logo-section img {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            border: 3px solid #00f2fe;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 10px;
         }
-        h1 {
-            color: #00f2fe;
-            font-size: 22px;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-        }
-        label {
-            display: block;
-            text-align: left;
-            font-size: 13px;
-            color: #e0e1dd;
-            margin: 10px 5px 5px;
-        }
+
+        h1 { color: var(--accent-color); font-size: 24px; margin-bottom: 20px; }
+
+        .label { display: block; text-align: left; margin: 10px 0 5px; font-size: 14px; opacity: 0.8; }
+
         select, textarea {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border-radius: 12px;
-            border: 1px solid #415a77;
-            background: #0d1b2a;
-            color: white;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        textarea { height: 80px; resize: none; }
-        .buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 14px;
-            border-radius: 12px;
+            background: #415a77;
             border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        textarea { height: 100px; resize: none; border: 1px solid #778da9; }
+
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+
+        button {
             cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
             font-weight: bold;
             transition: 0.3s;
+            font-size: 14px;
         }
-        #voiceBtn {
-            background: linear-gradient(135deg, #00f2fe, #4facfe);
-            color: #0d1b2a;
-            width: 100%;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        #translateBtn { background: #1b263b; color: #00f2fe; border: 1px solid #00f2fe; width: 100%; margin-bottom: 10px; }
-        #copyBtn, #clearBtn, #shareBtn { background: #415a77; color: white; width: 100%; margin-bottom: 10px; }
-        
-        /* वॉइस चालू होने पर लाइट जलने वाला इफेक्ट */
+
+        .btn-secondary { background: #778da9; color: white; }
+        .btn-action { background: transparent; border: 1px solid var(--accent-color); color: var(--accent-color); grid-column: span 2; }
+        .btn-voice { background: var(--btn-blue); color: white; font-size: 18px; grid-column: span 2; }
+        .btn-share { background: #3a506b; color: #00f2fe; grid-column: span 2; }
+
+        /* वॉइस बटन के लिए एनीमेशन */
         .listening {
-            background: #e63946 !important;
+            background: var(--btn-listening) !important;
             animation: pulse 1.5s infinite;
         }
+
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(230, 57, 70, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+            0% { transform: scale(1); }
+            50% { transform: scale(0.98); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <img src="logo.png" alt="Logo" class="logo">
+
+<div class="container">
+    <div class="logo-section">
+        <img src="logo.png" alt="Transworld Logo">
         <h1>Transworld AI</h1>
-
-        <label>आपकी भाषा:</label>
-        <select id="sourceLang"></select>
-
-        <label>अनुवाद की भाषा:</label>
-        <select id="targetLang"></select>
-
-        <textarea id="inputText" placeholder="बोलें या यहाँ टाइप करें..."></textarea>
-        <textarea id="outputText" placeholder="अनुवाद यहाँ दिखेगा..." readonly></textarea>
-
-        <div class="buttons">
-            <button id="copyBtn">Copy 📋</button>
-            <button id="clearBtn">Clear 🧹</button>
-        </div>
-
-        <button id="translateBtn">Translate Edited Text ✍️</button>
-        <button id="voiceBtn">Start Voice 🎤</button>
-        <button id="shareBtn">Share App 🔗</button>
     </div>
 
-    <script src="languages.js"></script>
-    <script src="main.js"></script>
-    <script src="sw.js"></script>
+    <span class="label">आपकी भाषा:</span>
+    <select id="sourceLang"></select>
+
+    <span class="label">अनुवाद की भाषा:</span>
+    <select id="targetLang"></select>
+
+    <textarea id="inputText" placeholder="यहाँ बोलें या लिखें..."></textarea>
+    <textarea id="outputText" placeholder="अनुवाद यहाँ दिखेगा..." readonly></textarea>
+
+    <div class="btn-grid">
+        <button id="copyBtn" class="btn-secondary">Copy 📋</button>
+        <button id="clearBtn" class="btn-secondary">Clear 🧹</button>
+        <button id="translateBtn" class="btn-action">Translate Edited Text ✍️</button>
+        <button id="voiceBtn" class="btn-voice">Start Voice 🎤</button>
+        <button id="shareBtn" class="btn-share">Share App 🔗</button>
+    </div>
+</div>
+
+<script src="languages.js"></script>
+<script src="main.js"></script>
+
+<script>
+  // Service Worker Registration for PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log("Transworld AI Live!", reg))
+        .catch(err => console.log("SW Registration Failed", err));
+    });
+  }
+
+  // Copy Functionality
+  document.getElementById('copyBtn').onclick = () => {
+      const output = document.getElementById('outputText');
+      output.select();
+      document.execCommand('copy');
+      alert("अनुवाद कॉपी हो गया!");
+  };
+
+  // Share Functionality (Basic)
+  document.getElementById('shareBtn').onclick = () => {
+      if (navigator.share) {
+          navigator.share({
+              title: 'Transworld AI',
+              text: 'कमल किशोर द्वारा बनाया गया बेहतरीन अनुवाद ऐप चेक करें!',
+              url: window.location.href
+          });
+      } else {
+          alert("Link: " + window.location.href);
+      }
+  };
+</script>
+
 </body>
 </html>
