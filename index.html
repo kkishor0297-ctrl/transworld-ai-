@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Transworld AI</title>
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
-<script src="languages.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transworld AI - Global Voice Translator</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app-container">
-  <img src="logo.png" alt="Transworld AI Logo" class="logo">
-  <h1>Transworld AI</h1>
-  
-  <label for="inputLang">आपकी भाषा</label>
-  <select id="inputLang"></select>
-  
-  <label for="outputLang">अनुवाद की भाषा</label>
-  <select id="outputLang"></select>
-  
-  <textarea id="inputText" placeholder="बोलें या यहाँ टाइप करें..."></textarea>
-  <textarea id="outputText" placeholder="अनुवाद यहाँ दिखेगा..." readonly></textarea>
-  
-  <button id="translateBtn">Translate Edited Text ✍️</button>
-  <button id="startVoiceBtn">Start Voice 🎤</button>
-  <button id="copyBtn">Copy 📋</button>
-  <button id="clearBtn">Clear 🧹</button>
-  <button id="shareBtn">Share App 🔗</button>
-</div>
+    <div class="app-container">
+        <img src="logo.png" alt="Transworld AI Logo" class="logo">
+        <h1>Transworld AI</h1>
 
-<script src="sw.js"></script>
-<script src="main.js"></script>
+        <label>आपकी भाषा:</label>
+        <select id="sourceLang"></select>
+
+        <label>अनुवाद की भाषा:</label>
+        <select id="targetLang"></select>
+
+        <textarea id="inputText" placeholder="बोलें या यहाँ टाइप करें..."></textarea>
+        <textarea id="outputText" placeholder="अनुवाद यहाँ दिखेगा..." readonly></textarea>
+
+        <div class="buttons">
+            <button id="copyBtn">Copy 📋</button>
+            <button id="clearBtn">Clear 🧹</button>
+        </div>
+
+        <button id="translateBtn">Translate Edited Text ✍️</button>
+        <button id="voiceBtn">Start Voice 🎤</button>
+        <button id="shareBtn">Share App 🔗</button>
+    </div>
+
+    <script src="languages.js"></script>
+    <script src="main.js"></script>
+    <script src="sw.js"></script>
 </body>
 </html>
