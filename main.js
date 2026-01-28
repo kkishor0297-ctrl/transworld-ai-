@@ -62,3 +62,11 @@ document.getElementById('clearBtn').onclick = () => {
     inputText.value = "";
     outputText.value = "";
 };
+window.addEventListener('offline', () => {
+    alert("ध्यान दें: अनुवाद करने के लिए इंटरनेट कनेक्शन ज़रूरी है।");
+});
+
+window.addEventListener('online', () => {
+    console.log("आप ऑनलाइन हैं। अनुवाद शुरू कर सकते हैं।");
+});
+
