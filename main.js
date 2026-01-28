@@ -1,59 +1,59 @@
-// Populate language dropdowns
-const sourceSelect = document.getElementById('sourceLang');
-const targetSelect = document.getElementById('targetLang');
-languages.forEach(lang => {
-    const option1 = document.createElement('option');
-    option1.value = lang.code;
-    option1.text = lang.name;
-    sourceSelect.add(option1);
-
-    const option2 = document.createElement('option');
-    option2.value = lang.code;
-    option2.text = lang.name;
-    targetSelect.add(option2);
-});
-
-// Buttons
+const voiceBtn = document.getElementById('voiceBtn');
 const inputText = document.getElementById('inputText');
 const outputText = document.getElementById('outputText');
-const copyBtn = document.getElementById('copyBtn');
-const clearBtn = document.getElementById('clearBtn');
-const translateBtn = document.getElementById('translateBtn');
-const voiceBtn = document.getElementById('voiceBtn');
+const sourceLang = document.getElementById('sourceLang');
+const targetLang = document.getElementById('targetLang');
 
-// Copy & Clear
-copyBtn.addEventListener('click', () => {
-    outputText.select();
-    document.execCommand('copy');
-});
-
-clearBtn.addEventListener('click', () => {
-    inputText.value = '';
-    outputText.value = '';
-});
-
-// Dummy translate function (replace with API later)
-translateBtn.addEventListener('click', () => {
-    const src = sourceSelect.value;
-    const tgt = targetSelect.value;
-    const text = inputText.value;
-    // API call example: fetch(`/translate?from=${src}&to=${tgt}&text=${text}`)
-    outputText.value = `Translated [${src} → ${tgt}]: ${text}`;
-});
-
-// Voice recognition
-let recognition;
-if ('webkitSpeechRecognition' in window) {
-    recognition = new webkitSpeechRecognition();
-    recognition.lang = sourceSelect.value;
-    recognition.continuous = false;
-
-    voiceBtn.addEventListener('click', () => {
-        recognition.start();
-    });
-
-    recognition.onresult = (event) => {
-        inputText.value = event.results[0][0].transcript;
-        translateBtn.click();
-    };
+// 1. असली अनुवाद (Real Translation) फंक्शन
+async function translateText(text) {
+    const s = sourceLang.value;
+    const t = targetLang.value;
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${s}|${t}`;
+    
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.responseData.translatedText;
+    } catch (error) {
+        return "Translation Error! Check Internet.";
+    }
 }
+
+// 2. आवाज़ से बोलना (Text to Speech)
+function speak(text, lang) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    window.speechSynthesis.speak(utterance);
+}
+
+// 3. लिसनिंग बटन और वॉइस रिकग्निशन
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.continuous = false;
+recognition.lang = 'hi-IN'; // डिफ़ॉल्ट हिंदी
+
+voiceBtn.onclick = () => {
+    recognition.start();
+    voiceBtn.classList.add('listening'); // यहाँ से बटन लाल होगा
+    voiceBtn.innerText = "Listening... 🎤";
+};
+
+recognition.onresult = async (event) => {
+    voiceBtn.classList.remove('listening');
+    voiceBtn.innerText = "Start Voice 🎤";
+    
+    const transcript = event.results[0][0].transcript;
+    inputText.value = transcript;
+    
+    // अनुवाद शुरू करें
+    outputText.value = "Translating...";
+    const result = await translateText(transcript);
+    outputText.value = result;
+    
+    // अनुवाद सुनने के लिए
+    speak(result, targetLang.value);
+};
+
+recognition.onerror = () => {
+    voiceBtn.classList.remove('listening');
+    voiceBtn.innerText = "Start Voice 🎤";
+};
