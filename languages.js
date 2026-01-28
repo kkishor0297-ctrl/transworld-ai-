@@ -1,44 +1,44 @@
-const langs = [
- {c:"en-US",n:"English"},
- {c:"hi-IN",n:"Hindi"},
- {c:"bn-IN",n:"Bengali"},
- {c:"ta-IN",n:"Tamil"},
- {c:"te-IN",n:"Telugu"},
- {c:"mr-IN",n:"Marathi"},
- {c:"gu-IN",n:"Gujarati"},
- {c:"pa-IN",n:"Punjabi"},
- {c:"ur-PK",n:"Urdu"},
- {c:"fr-FR",n:"French"},
- {c:"de-DE",n:"German"},
- {c:"es-ES",n:"Spanish"},
- {c:"pt-PT",n:"Portuguese"},
- {c:"ru-RU",n:"Russian"},
- {c:"ja-JP",n:"Japanese"},
- {c:"ko-KR",n:"Korean"},
- {c:"zh-CN",n:"Chinese"},
- {c:"ar-SA",n:"Arabic"},
- {c:"it-IT",n:"Italian"},
- {c:"tr-TR",n:"Turkish"},
- {c:"vi-VN",n:"Vietnamese"},
- {c:"id-ID",n:"Indonesian"},
- {c:"th-TH",n:"Thai"},
- {c:"nl-NL",n:"Dutch"},
- {c:"pl-PL",n:"Polish"},
- {c:"uk-UA",n:"Ukrainian"}
+const languages = [
+  { code: 'en', name: 'English' },
+  { code: 'hi', name: 'Hindi' },
+  { code: 'gu', name: 'Gujarati' },
+  { code: 'bn', name: 'Bengali' },
+  { code: 'ta', name: 'Tamil' },
+  { code: 'te', name: 'Telugu' },
+  { code: 'ur', name: 'Urdu' },
+  { code: 'fr', name: 'French' },
+  { code: 'es', name: 'Spanish' },
+  { code: 'de', name: 'German' },
+  { code: 'ar', name: 'Arabic' },
+  { code: 'pt', name: 'Portuguese' },
+  { code: 'ru', name: 'Russian' },
+  { code: 'ja', name: 'Japanese' },
+  { code: 'ko', name: 'Korean' },
+  { code: 'it', name: 'Italian' },
+  { code: 'vi', name: 'Vietnamese' },
+  { code: 'tr', name: 'Turkish' },
+  { code: 'pa', name: 'Punjabi' },
+  { code: 'mr', name: 'Marathi' },
+  { code: 'zh', name: 'Chinese' },
+  { code: 'fa', name: 'Persian' },
+  { code: 'sw', name: 'Swahili' },
+  { code: 'nl', name: 'Dutch' },
+  { code: 'jv', name: 'Javanese' },
+  { code: 'ta', name: 'Tamil' }
 ];
 
-const inSel=document.getElementById("inputLang");
-const outSel=document.getElementById("outputLang");
+// Populate dropdowns
+const inputLang = document.getElementById('inputLang');
+const outputLang = document.getElementById('outputLang');
 
-langs.forEach(l=>{
-  let o1=document.createElement("option");
-  o1.value=l.c; o1.textContent=l.n;
-  inSel.appendChild(o1);
+languages.forEach(lang => {
+  const option1 = document.createElement('option');
+  option1.value = lang.code;
+  option1.textContent = lang.name;
+  inputLang.appendChild(option1);
 
-  let o2=document.createElement("option");
-  o2.value=l.c; o2.textContent=l.n;
-  outSel.appendChild(o2);
+  const option2 = document.createElement('option');
+  option2.value = lang.code;
+  option2.textContent = lang.name;
+  outputLang.appendChild(option2);
 });
-
-inSel.value="hi-IN";
-outSel.value="en-US";
