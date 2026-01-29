@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // HTML Elements
     const langDropdown = document.getElementById("languageDropdown");
     const translateBtn = document.getElementById("translateBtn");
     const inputText = document.getElementById("inputText");
@@ -15,24 +14,20 @@ document.addEventListener("DOMContentLoaded", function() {
         langDropdown.appendChild(option);
     });
 
-    // Translate function (mock / beginner version)
+    // Placeholder translation function
     function translate(text, targetLang) {
-        // This is placeholder logic
-        // Replace with real API call if needed
         return `[${targetLang}] ${text}`;
     }
 
-    // Translate button click
+    // Translate button
     translateBtn.addEventListener("click", function() {
-        const text = inputText.value;
+        const text = inputText.value.trim();
         const lang = langDropdown.value;
         if(!text || !lang) {
-            alert("Please enter text and select language!");
+            alert("Enter text and select language!");
             return;
         }
-        const translated = translate(text, lang);
-        outputText.value = translated;
-        console.log("Translated:", translated);
+        outputText.value = translate(text, lang);
     });
 
     // Text-to-Speech
@@ -41,15 +36,13 @@ document.addEventListener("DOMContentLoaded", function() {
         window.speechSynthesis.speak(msg);
     });
 
-    // Voice Input (Microphone)
+    // Microphone input
     micBtn.addEventListener("click", function() {
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.lang = "en-US"; // default
+        recognition.lang = "en-US";
         recognition.start();
         recognition.onresult = function(event) {
             inputText.value = event.results[0][0].transcript;
         }
     });
-
-    console.log("Advanced JS loaded, DOM ready!");
 });
