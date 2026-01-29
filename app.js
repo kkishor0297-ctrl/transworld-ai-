@@ -55,3 +55,6 @@ function shareText() {
     alert("Share not supported");
   }
 }
+document.addEventListener("DOMContentLoaded", function() {
+    // पुरा app.js code यहाँ paste करो
+});
