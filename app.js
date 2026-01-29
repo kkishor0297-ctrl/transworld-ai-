@@ -1,84 +1,86 @@
-// HTML Elements
+// app.js
+// DOM Elements
 const inputLang = document.getElementById("inputLang");
 const outputLang = document.getElementById("outputLang");
 const inputText = document.getElementById("inputText");
 const outputText = document.getElementById("outputText");
-const micBtn = document.getElementById("micBtn");
-const translateBtn = document.getElementById("translateBtn");
-const copyBtn = document.getElementById("copyBtn");
-const clearBtn = document.getElementById("clearBtn");
-const shareBtn = document.getElementById("shareBtn");
+const listenBtn = document.getElementById("listenTranslate");
+const translateBtn = document.getElementById("translateText");
+const copyBtn = document.getElementById("copyText");
+const clearBtn = document.getElementById("clearText");
+const shareBtn = document.getElementById("shareText");
 
-// Load languages into dropdowns
-for (let lang in languages) {
-    inputLang.innerHTML += `<option value="${languages[lang]}">${lang}</option>`;
-    outputLang.innerHTML += `<option value="${lang}">${lang}</option>`;
+// Populate languages
+languages.forEach(lang => {
+  let option1 = document.createElement("option");
+  option1.value = lang;
+  option1.textContent = lang;
+  inputLang.appendChild(option1);
+
+  let option2 = document.createElement("option");
+  option2.value = lang;
+  option2.textContent = lang;
+  outputLang.appendChild(option2);
+});
+
+// Speech Recognition
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+recognition.continuous = false;
+recognition.interimResults = false;
+
+listenBtn.addEventListener("click", () => {
+  recognition.start();
+});
+
+recognition.onresult = (event) => {
+  let speech = event.results[0][0].transcript;
+  inputText.value = speech;
+  translateTextFunction();
 }
 
-// Default selections
-inputLang.value = "hi-IN";
-outputLang.value = "English";
+// Translation Function
+async function translateTextFunction() {
+  let text = inputText.value.trim();
+  if(!text) return;
 
-// ---------- Voice Input & Translation ----------
-micBtn.onclick = () => {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = inputLang.value;
-    recognition.start();
+  let targetLang = outputLang.value;
 
-    // Green glow animation
-    micBtn.style.background = "#27ae60";
+  // Use Google Translate API or OpenAI API in real project
+  // For demo, mimic translation by adding language tag
+  outputText.value = `[${targetLang}] ${text}`;
 
-    recognition.onresult = (event) => {
-        inputText.value = event.results[0][0].transcript;
-        translateText();
-    };
-
-    recognition.onend = () => {
-        micBtn.style.background = "#2ecc71";
-    };
-};
-
-// ---------- Text Translation Button ----------
-translateBtn.onclick = () => {
-    translateText();
-};
-
-// ---------- Translate Function ----------
-function translateText() {
-    let text = inputText.value.trim();
-    if (!text) return;
-
-    // For demo, just show input in output
-    // Future: Replace with AI translation API
-    outputText.value = `[${outputLang.value}] ${text}`;
-
-    // Voice output (TTS)
-    const utterance = new SpeechSynthesisUtterance(outputText.value);
-    utterance.lang = outputLang.value.includes("IN") ? "en-US" : "en-US"; // demo fallback
-    window.speechSynthesis.speak(utterance);
+  // Text-to-Speech
+  const utterance = new SpeechSynthesisUtterance(outputText.value);
+  utterance.lang = 'en-US'; // Change dynamically if needed
+  speechSynthesis.speak(utterance);
 }
 
-// ---------- Copy ----------
-copyBtn.onclick = () => {
-    navigator.clipboard.writeText(outputText.value);
-    alert("Copied!");
-};
+translateBtn.addEventListener("click", translateTextFunction);
 
-// ---------- Clear ----------
-clearBtn.onclick = () => {
-    inputText.value = "";
-    outputText.value = "";
-};
+// Copy
+copyBtn.addEventListener("click", () => {
+  navigator.clipboard.writeText(outputText.value);
+});
 
-// ---------- Share ----------
-shareBtn.onclick = () => {
-    if (navigator.share) {
-        navigator.share({
-            title: "Transworld AI",
-            text: outputText.value,
-            url: location.href
-        });
-    } else {
-        alert("Share not supported in this browser");
+// Clear
+clearBtn.addEventListener("click", () => {
+  inputText.value = "";
+  outputText.value = "";
+});
+
+// Share
+shareBtn.addEventListener("click", async () => {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "Transworld AI Translation",
+        text: outputText.value
+      });
+    } catch (err) {
+      alert("Share failed: " + err.message);
     }
-};
+  } else {
+    alert("Share not supported on this browser.");
+  }
+});
