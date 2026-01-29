@@ -1,4 +1,4 @@
-
+alert("JS working");
 const fromLang = document.getElementById("fromLang");
 const toLang = document.getElementById("toLang");
 const inputText = document.getElementById("inputText");
