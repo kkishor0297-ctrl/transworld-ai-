@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TransWorld AI Advanced</title>
+    <title>TransWorld AI - Advanced</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,21 +11,22 @@
 <h2>TransWorld AI - Advanced</h2>
 
 <textarea id="inputText" placeholder="Type or speak your text here"></textarea>
-<br><br>
+<br>
 
-<button id="micBtn">🎤 Speak</button>
-<br><br>
+<div style="display: flex; justify-content: space-between; width: 90%; max-width: 400px;">
+    <button id="micBtn">🎤 Speak</button>
+    <button id="translateBtn">Translate</button>
+</div>
+
+<br>
 
 <select id="languageDropdown">
     <option value="">Select language</option>
 </select>
 <br><br>
 
-<button id="translateBtn">Translate</button>
-<br><br>
-
 <textarea id="outputText" placeholder="Translation will appear here"></textarea>
-<br><br>
+<br>
 
 <button id="speakBtn">🔊 Speak Output</button>
 
