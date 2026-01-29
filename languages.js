@@ -1,26 +1,14 @@
-const languages = {
 
-  // 🇮🇳 INDIA – TOP 8
-  "Hindi": "hi-IN",
-  "English": "en-IN",
-  "Bengali": "bn-IN",
-  "Telugu": "te-IN",
-  "Marathi": "mr-IN",
-  "Tamil": "ta-IN",
-  "Urdu": "ur-IN",
-  "Gujarati": "gu-IN",
+// languages.js
+const languages = [
+  // India Top 8 Languages
+  "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Punjabi", "Kannada",
 
-  // 🌍 WORLD – TOP 12
-  "Spanish": "es-ES",
-  "French": "fr-FR",
-  "German": "de-DE",
-  "Arabic": "ar-SA",
-  "Chinese (Mandarin)": "zh-CN",
-  "Japanese": "ja-JP",
-  "Korean": "ko-KR",
-  "Russian": "ru-RU",
-  "Portuguese": "pt-PT",
-  "Italian": "it-IT",
-  "Turkish": "tr-TR",
-  "Indonesian": "id-ID"
-};
+  // Top 50 Global Languages
+  "English","Mandarin","Spanish","French","Arabic","Portuguese","Russian","Japanese",
+  "German","Javanese","Wu Chinese","Korean","Vietnamese","Turkish","Italian","Thai",
+  "Persian","Polish","Ukrainian","Dutch","Indonesian","Malay","Filipino","Romanian",
+  "Burmese","Hausa","Swahili","Amharic","Fula","Oromo","Igbo","Yoruba","Arabic Egyptian",
+  "Vietnamese","Punjabi Pakistan","Urdu","Sindhi","Nepali","Sinhalese","Khmer","Balochi",
+  "Kazakh","Uzbek","Pashto","Tajik","Azerbaijani","Malagasy","Somali","Hmong","Greek","Hungarian","Czech"
+];
