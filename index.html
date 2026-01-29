@@ -1,36 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transworld AI</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Transworld AI</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div class="container">
-    <img src="logo.png" class="logo" alt="Transworld AI Logo">
-    <h1>🌍 Transworld AI</h1>
-    <p>Voice & Text Language Translator</p>
 
-    <label for="inputLang">Speak / Type Language</label>
-    <select id="inputLang"></select>
+<div class="app">
 
-    <label for="outputLang">Translate To</label>
-    <select id="outputLang"></select>
+  <h1>🌍 Transworld AI</h1>
+  <p>Voice & Text Language Translator</p>
 
-    <textarea id="inputText" placeholder="Type or speak here..."></textarea>
-    <textarea id="outputText" placeholder="Translation appears here..." readonly></textarea>
+  <label>Speak / Type Language</label>
+  <select id="inputLang"></select>
 
-    <div class="buttons">
-      <button id="listenTranslate" class="green">🎤 Listen & Translate</button>
-      <button id="translateText" class="blue">🔄 Translate Text</button>
-      <button id="copyText" class="yellow">📋 Copy</button>
-      <button id="clearText" class="gray">🧹 Clear</button>
-      <button id="shareText" class="purple">🔗 Share</button>
-    </div>
+  <label>Translate To</label>
+  <select id="outputLang"></select>
+
+  <textarea id="inputText" placeholder="Type here or use mic..."></textarea>
+
+  <textarea id="outputText" placeholder="Translation will appear here..." readonly></textarea>
+
+  <div class="buttons">
+    <button id="listenBtn" class="green">🎤 Listen & Translate</button>
+    <button id="translateBtn" class="blue">🔁 Translate Text</button>
+    <button id="copyBtn" class="yellow">📋 Copy</button>
+    <button id="clearBtn" class="gray">🧹 Clear</button>
+    <button id="shareBtn" class="purple">🔗 Share</button>
   </div>
 
-  <script src="languages.js"></script>
-  <script src="app.js"></script>
+</div>
+
+<script src="languages.js"></script>
+<script src="app.js"></script>
+
 </body>
 </html>
